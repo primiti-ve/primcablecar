@@ -1,0 +1,12 @@
+img {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.no-select-drag {
+	user-select: none;
+	-webkit-user-select: none;
+	-webkit-user-drag: none;
+}
