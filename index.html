@@ -4,9 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
+    <script defer src="index.js"></script>
     <title>prim cable car</title>
 </head>
 <body>
-    <img src="image.png" class="no-select-drag">
+    <div class="centre">
+        <img src="image.png" onclick="onClick()" class="no-select-drag">
+        <h1 id="clicks">clicks: 0</h1>
+        <button onclick="onReset()">reset</button>
+    </div>
 </body>
 </html>
