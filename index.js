@@ -1,19 +1,19 @@
 let num = Number(localStorage.clicks) || 0;
 
-const clicks = document.getElementById("clicks");
+const points = document.getElementById("points");
 
-clicks.innerHTML = `clicks: ${num}`;
+points.innerHTML = `prim points: ${num}`;
 
 function onClick() {
     num += 1;
 
-    clicks.innerHTML = `clicks: ${num}`;
+    points.innerHTML = `prim points: ${num}`;
     localStorage.clicks = num;
 }
 
 function onReset() {
     num = 0;
     
-    clicks.innerHTML = `clicks: ${num}`;
+    points.innerHTML = `prim points: ${num}`;
     localStorage.clicks = num;
 }
