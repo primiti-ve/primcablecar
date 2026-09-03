@@ -1,6 +1,6 @@
 let num = Number(localStorage.clicks) || 0;
 
-const points = document.getElementById("points");
+const points = document.getElementById("pointsDisplay");
 
 points.innerHTML = `prim points: ${num}`;
 
