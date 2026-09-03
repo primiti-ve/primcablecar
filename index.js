@@ -16,18 +16,35 @@ const points = document.getElementById("points");
 
 points.innerHTML = `prim points: ${num}`;
 
+function getCount(name) {
+    const entry = purchased.find(p => p.split(":")[0] === name);
+    return entry ? Number(entry.split(":")[1]) : 0;
+}
+
+function setCount(name, count) {
+    const index = purchased.findIndex(p => p.split(":")[0] === name);
+    const entry = `${name}:${count}`;
+
+    if (index === -1) {
+        purchased.push(entry);
+    } else {
+        purchased[index] = entry;
+    }
+}
+
 function updateShop() {
     let html = '';
 
     for (let i = 0; i < upgrades.length; i++) {
         let upgrade = upgrades[i];
+        let count = getCount(upgrade.name);
 
-        if (upgrade.once && purchased.includes(upgrade.name)) {
+        if (upgrade.once && count > 0) {
             continue;
         }
 
         html = `${html}\n`;
-        html = `${html}<p ">${upgrade.name}: ${upgrade.benefit}</p>`;
+        html = `${html}<p>${upgrade.name}: ${upgrade.benefit} - ${count} copies</p>`;
         html = `${html}<button data-index="${i}">${upgrade.price} prim points</button>`;
     }
 
@@ -36,7 +53,7 @@ function updateShop() {
     shop.querySelectorAll("button").forEach(btn => {
         btn.addEventListener("click", () => onUpgradeClick(Number(btn.dataset.index)));
     });
-    
+
     localStorage.purchased = JSON.stringify(purchased);
 }
 
@@ -49,7 +66,7 @@ function onUpgradeClick(index) {
         return;
     }
 
-    if (upgrade.once && purchased.includes(upgrade.name)) {
+    if (upgrade.once && getCount(upgrade.name) > 0) {
         return;
     }
 
@@ -59,25 +76,27 @@ function onUpgradeClick(index) {
 
     num -= upgrade.price;
 
-    purchased.push(upgrade.name);
+    setCount(upgrade.name, getCount(upgrade.name) + 1);
 
     localStorage.clicks = num;
     points.innerHTML = `prim points: ${num}`;
+    
     updateShop();
 }
 
 function onClick() {
     let increment = 1;
-    
+
     for (let i = 0; i < purchased.length; i++) {
-        let upgrade = purchased[i];
-        
-        switch(upgrade) {
+        const [name, countStr] = purchased[i].split(":");
+        const count = Number(countStr);
+
+        switch (name) {
             case "test":
-                increment += 1;
+                increment += 1 * count;
 
                 break;
-            
+
             default:
                 break;
         }
@@ -98,7 +117,7 @@ function onReset() {
     points.innerHTML = `prim points: ${num}`;
 
     localStorage.clicks = num;
-    localStorage.purchased = purchased;
+    localStorage.purchased = JSON.stringify(purchased);
 
     updateShop();
 }
